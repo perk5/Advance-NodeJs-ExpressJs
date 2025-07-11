@@ -1,0 +1,98 @@
+[
+{
+    "name": "Riddick",
+    "description": "One of the best movie of all time..",
+    "duration": 119,
+    "ratings": 6.8,
+    "totalRatings": 329,
+    "releaseYear": 2013,
+    "releaseDate": "2013-09-04T00:00:00Z",
+    "genres": [
+        "Action",
+        "Sci-fi",
+        "Thriller"
+    ],
+    "directors":[
+        "David Twohy"
+    ],
+    "coverImage": "Riddick-2013.jpg",
+    "actors": [
+        "Vin Diesel",
+        "Karn Urban",
+        "Katee Sackhoff"
+    ],
+    "price": 50
+},
+{
+    "name": "Batman Begins",
+    "description": "Batman forever",
+    "duration": 145,
+    "ratings": 9.0,
+    "totalRatings": 800,
+    "releaseYear": 2015,
+    "releaseDate": "2013-12-04T00:00:00Z",
+    "genres": [
+        "Action",
+        "Sci-fi",
+        "fiction"
+    ],
+    "directors":[
+        "Christopher Nolen"
+    ],
+    "coverImage": "Batman-2013.jpg",
+    "actors": [
+        "Christian Bale",
+        "Katie Holmes",
+        "Cillian Murphy"
+    ],
+    "price": 100
+},
+{
+    "name": "Spiderman 2",
+    "description": "Your Friendly neighbourhood spiderman",
+    "duration": 120,
+    "ratings": 8.0,
+    "totalRatings": 750,
+    "releaseYear": 2012,
+    "releaseDate": "2013-08-04T00:00:00Z",
+    "genres": [
+        "Action",
+        "Sci-fi",
+        "fiction"
+    ],
+    "directors":[
+        "Sam Raimi"
+    ],
+    "coverImage": "Spiderman-2013.jpg",
+    "actors": [
+        "Tobey Maguire",
+        "Kirsten Dunst",
+        "Willem Dafoe"
+    ],
+    "price": 120
+},
+{
+    "name": "Spiderman",
+    "description": "Your Friendly neighbourhood spiderman",
+    "duration": 120,
+    "ratings": 8.0,
+    "totalRatings": 750,
+    "releaseYear": 2012,
+    "releaseDate": "2013-08-04T00:00:00Z",
+    "genres": [
+        "Action",
+        "Sci-fi",
+        "fiction"
+    ],
+    "directors":[
+        "Sam Raimi"
+    ],
+    "coverImage": "Spiderman-2013.jpg",
+    "actors": [
+        "Tobey Maguire",
+        "Kirsten Dunst",
+        "Willem Dafoe"
+    ],
+    "price": 75
+}
+]
