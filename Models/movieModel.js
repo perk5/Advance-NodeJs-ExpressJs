@@ -82,15 +82,15 @@ movieSchema.pre('save', function(next) {
 })
 
 
-movieSchema.post('save', function(doc, next){
+// movieSchema.post('save', function(doc, next){
 
-    const content = `A new movie with name: ${doc.name} was created by a person name: ${doc.createdBy}\n`
+//     const content = `A new movie with name: ${doc.name} was created by a person name: ${doc.createdBy}\n`
 
-    fs.writeFileSync('./Log/log.txt', content, { flag: 'a' }, (err) => {
-        console.log(err.message)
-    })
-    next()
-})
+//     fs.writeFileSync('./Log/log.txt', content, { flag: 'a' }, (err) => {
+//         console.log(err.message)
+//     })
+//     next()
+// })
 
 
 movieSchema.pre(/^find/, function(next){
@@ -99,18 +99,18 @@ movieSchema.pre(/^find/, function(next){
     next()
 })
 
-movieSchema.post(/^find/, function(docs, next){
-    this.find({ releaseDate: {$gte: Date.now()} })
-    this.endTime = Date.now()
+// movieSchema.post(/^find/, function(docs, next){
+//     this.find({ releaseDate: {$gte: Date.now()} })
+//     this.endTime = Date.now()
     
-    const content = `Query took: ${this.endTime - this.startTime} milliseconds\n`
+//     const content = `Query took: ${this.endTime - this.startTime} milliseconds\n`
 
-    fs.writeFileSync('./Log/log.txt', content, { flag: 'a' }, (err) => {
-        console.log(err.message)
-    })
+//     fs.writeFileSync('./Log/log.txt', content, { flag: 'a' }, (err) => {
+//         console.log(err.message)
+//     })
 
-    next()
-})
+//     next()
+// })
 
 
 movieSchema.pre('aggregate', function(next) {
