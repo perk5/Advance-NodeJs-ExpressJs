@@ -163,7 +163,7 @@ exports.resetPassword = asyncErrorHandler( async (req, res, next) => {
     if(!user){ 
         next(new CustomError( `The token is invalid or has expired..`, 400))
     }
-
+    // new reset passwords 
     user.password = req.body.password
     user.confirmPassword = req.body.confirmPassword
     user.passwordResetToken= undefined
