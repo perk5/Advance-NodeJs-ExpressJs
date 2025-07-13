@@ -5,6 +5,7 @@ const CustomError = require('../Utils/CustomError')
 const mongoose = require('mongoose')
 const util = require('util')
 const sendEmail = require('../Utils/Email.js')
+const crypto = require('crypto')
 
 const signtoken = (id) => {
     const token = jwt.sign({ id }, process.env.SECRET_STR, {
@@ -126,7 +127,7 @@ exports.forgotPassword = asyncErrorHandler( async (req, res, next) => {
 
     //2. Generate and Reset Token
     const resetToken = await user.createResetPasswordToken()
-    console.log(resetToken)
+    // console.log(resetToken)
 
     await user.save({ validateBeforeSave: false })
 
@@ -146,15 +147,35 @@ exports.forgotPassword = asyncErrorHandler( async (req, res, next) => {
             message: "Password reset link send to the user email.."
         })
     }catch(error){
-        user.passwordResetToken= undefined,
+        user.passwordResetToken= undefined
         user.passwordTokenResetExpire= undefined
-        user.save({ validateBeforeSave: false })
+        await user.save({ validateBeforeSave: false })
 
         return next(new CustomError(`There was an error sending password reset email. Please try again later`, 500))
     }
     
 })
 
-exports.resetPassword = (req, res, next) => {
+exports.resetPassword = asyncErrorHandler( async (req, res, next) => {
+    const token = crypto.createHash('sha256').update(req.params.token).digest('hex')
+    const user = await User.findOne({ passwordResetToken: token, passwordTokenResetExpire: { $gt: Date.now() } })
+     
+    if(!user){ 
+        next(new CustomError( `The token is invalid or has expired..`, 400))
+    }
 
-}
+    user.password = req.body.password
+    user.confirmPassword = req.body.confirmPassword
+    user.passwordResetToken= undefined
+    user.passwordTokenResetExpire= undefined
+    user.passwordChangedAt = Date.now()
+
+    await user.save()
+    
+    const loginToken = signtoken(user._id)
+    
+    res.status(200).json({
+        status: "success",
+        token: loginToken
+    })
+})
