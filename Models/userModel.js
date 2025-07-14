@@ -66,6 +66,11 @@ userSchema.methods.comparePasswordInDb = async function(pswd){
    return await bcrypt.compare(pswd, this.password)
 }
 
+userSchema.pre(/^find/, async function(next){
+    this.find({ active: {$ne: false} })
+    next()
+})  
+
 
 userSchema.methods.isPasswordChanged = async function(JWTTimestamp) {
     if(this.passwordChangedAt){

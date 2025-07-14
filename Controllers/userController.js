@@ -25,7 +25,7 @@ const filterReqObj = (obj, ...allowedFields) => {
 }
 
 exports.getAllUsers = asyncErrorHandler(async(req, res, next) => {
-    const user = await User.find({})
+    const user = await User.find()
 
     res.status(200).json({
         status: "Success",
