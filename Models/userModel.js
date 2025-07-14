@@ -39,6 +39,11 @@ const userSchema = new mongoose.Schema({
             message: "Password & confirm password doesnot match.." 
         }
     },
+    active: {
+        type: Boolean,
+        default: true,
+        select: false
+    }, 
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordTokenResetExpire: Date

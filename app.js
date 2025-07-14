@@ -2,9 +2,10 @@
 const express = require('express')
 const morgan = require('morgan')
 const movieRouter = require('./Routes/moviesRoutes')
-const userRouter = require('./Routes/authRouter')
+const authRouter = require('./Routes/authRouter')
 const CustomError = require('./Utils/CustomError')
 const globalHandlerFunction = require('./Controllers/errorController')
+const userRoute = require('./Routes/userRoutes')
 
 let app = express()
 app.use(express.json())
@@ -38,7 +39,8 @@ app.use(express.static('./public'))
 
 
 app.use('/api/v1/movies', movieRouter)
-app.use('/api/v1/users', userRouter)
+app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/user', userRoute)
 
 app.use((req, res, next) => {
 //   res.status(404).json({

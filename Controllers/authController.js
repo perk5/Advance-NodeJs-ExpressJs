@@ -180,29 +180,3 @@ exports.resetPassword = asyncErrorHandler( async (req, res, next) => {
     })
 })
 
-exports.updatePassword = asyncErrorHandler (async (req, res, next) => {
-    // console.log(req.user)
-    // 1. Find the user who wants to change the password
-    const user = await User.findOne({ _id: req.user._id }).select('+password')
-    if(!user){
-        next( new CustomError(`User not found`, 404) )
-    }
-    //2. Check the current password...
-    // const comparePassword = await user.comparePasswordInDb(req.body.password)
-    // console.log(awaitcomparePassword)
-    if(!(await user.comparePasswordInDb(req.body.password))){
-       return next(new CustomError(`Your Current Password is not correct`, 401)) 
-    }
-    //3. Update the current password in the database..
-    user.password = req.body.newPassword
-    user.confirmPassword = req.body.comfirmPassword
-    
-    await user.save()
-    //4. Login the User and send the webToken in the response...
-    const Token = signtoken(user._id)
-    
-    res.status(200).json({
-        status: "success",
-        token: Token
-    })
-})
