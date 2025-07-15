@@ -1,14 +1,37 @@
 //Import Express Package....
 const express = require('express')
 const morgan = require('morgan')
+const rateLimit = require('express-rate-limit')
+const helmet = require('helmet')
+const sanitize = require('express-mongo-sanitize')
+const xss = require('xss-clean')
+const hpp = require('hpp')
 const movieRouter = require('./Routes/moviesRoutes')
 const authRouter = require('./Routes/authRouter')
 const CustomError = require('./Utils/CustomError')
 const globalHandlerFunction = require('./Controllers/errorController')
 const userRoute = require('./Routes/userRoutes')
 
+
 let app = express()
-app.use(express.json())
+
+app.use(helmet())
+
+let limiter = rateLimit({
+    max: 1000,
+    windowMs: 1000 * 60 * 60,
+    message: "We have received too many requests from this IP. Please try after one hour..."
+})
+
+app.use('/api', limiter)
+app.use(express.json({
+    limit: '10kb'
+}))
+// app.use(express.urlencoded({ extended: true })); 
+
+// app.use(sanitize())
+// app.use(xss())
+app.use(hpp())
 
 const qs = require("qs");
 app.set("query parser", (str) => qs.parse(str));

@@ -6,13 +6,8 @@ const mongoose = require('mongoose')
 const util = require('util')
 const sendEmail = require('../Utils/Email.js')
 const crypto = require('crypto')
+const {createSendResponse} = require('./authController.js')
 
-const signtoken = (id) => {
-    const token = jwt.sign({ id }, process.env.SECRET_STR, {
-        expiresIn: process.env.LOGIN_EXPIRES
-    })
-    return token
-}
 
 const filterReqObj = (obj, ...allowedFields) => {
     const newObj = {}
@@ -54,12 +49,7 @@ exports.updatePassword = asyncErrorHandler (async (req, res, next) => {
     
     await user.save()
     //4. Login the User and send the webToken in the response...
-    const Token = signtoken(user._id)
-    
-    res.status(200).json({
-        status: "success",
-        token: Token
-    })
+    createSendResponse(user, 200, res)
 })
 
 
@@ -82,8 +72,6 @@ exports.updateMe = asyncErrorHandler( async (req, res, next) => {
 })
 
 exports.deleteMe = asyncErrorHandler( async (req, res, next) => {
-
-    console.log(req.user)
 
     const user = await User.findByIdAndUpdate(req.user._id, {active: false})
 

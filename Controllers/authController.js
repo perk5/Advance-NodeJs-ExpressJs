@@ -7,6 +7,32 @@ const util = require('util')
 const sendEmail = require('../Utils/Email.js')
 const crypto = require('crypto')
 
+
+exports.createSendResponse = (user, statusCode, res) => {
+    const token = signtoken(user._id)
+
+    const options = {
+        maxAge: 2592000000,
+        httpOnly: true
+    }
+
+    if(process.env.NODE_ENV === "production"){
+        options.secure = true
+    }
+    
+    res.cookie('jwt', token, options)
+
+    user.password = undefined
+
+    res.status(statusCode).json({
+        status: "success",
+        token,
+        data:{
+            user
+        }
+    })
+}
+
 const signtoken = (id) => {
     const token = jwt.sign({ id }, process.env.SECRET_STR, {
         expiresIn: process.env.LOGIN_EXPIRES
@@ -15,17 +41,10 @@ const signtoken = (id) => {
 }
 
 exports.signup = asyncErrorHandler (async (req, res, next) => {
-    const newUser = await User.create(req.body)
+    const user = await User.create(req.body)
 
-    const token = signtoken(newUser._id)
+    exports.createSendResponse(user, 200, res)
     
-    res.status(201).json({
-        status: "success",
-        token,
-        data:{
-            user: newUser
-        }
-    })
 })
 
 exports.login = asyncErrorHandler(async (req, res, next) => {
@@ -47,12 +66,7 @@ exports.login = asyncErrorHandler(async (req, res, next) => {
         return next(error)
     }
 
-    const token = signtoken(user._id)
-
-    res.status(200).json({
-        status: "success",
-        token
-    })
+    exports.createSendResponse(user, 200, res)
 
 })
 
@@ -172,11 +186,6 @@ exports.resetPassword = asyncErrorHandler( async (req, res, next) => {
 
     await user.save()
     
-    const loginToken = signtoken(user._id)
-    
-    res.status(200).json({
-        status: "success",
-        token: loginToken
-    })
+    exports.createSendResponse(user, 200, res)
 })
 

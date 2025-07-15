@@ -46,7 +46,7 @@ const asyncErrorHandler = require('../Utils/AsyncErrorHandler.js')
 
 exports.getAllMovies = asyncErrorHandler(async (req, res, next) => {
     // Working With movies.json
-        const features = new ApiFeatures(movie.find(), req.query).allMovies()
+        const features = new ApiFeatures(movie.find(), req.query).allMovies().sort()
         let movies = await features.query;
     // If Want to Exclude extra queries from URL...
         
