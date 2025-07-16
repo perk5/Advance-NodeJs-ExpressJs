@@ -1,6 +1,6 @@
 # Advance Node.js & Express.js 🚀
 
-A practical project demonstrating advanced backend development with **Node.js** and **Express.js**. This repository includes user authentication, routing, middleware handling, and MongoDB integration — ideal for learning or starting a full-stack application.
+A practical project demonstrating advanced backend development with **Node.js** and **Express.js**. This repository includes user authentication, routing, middleware handling, and MongoDB integration.
 ---
 
 ## 📌 Key Features
